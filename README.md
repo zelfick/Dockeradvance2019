@@ -4,46 +4,33 @@
 ## Goal: create networks, volumes, and services for a web-based "cats vs. dogs" voting app.
 Here is a basic diagram of how the 5 services will work:
 
-![diagram](./architecture.png)
+![diagram](./challenge2/architecture2.png)
 - All images are on Docker Hub, so you should use editor to craft your commands locally, then paste them into swarm shell (at least that's how I'd do it)
-- a `backend` and `frontend` overlay network are needed. Nothing different about them other then that backend will help protect database from the voting web app. (similar to how a VLAN setup might be in traditional architecture)
+- a `backend` and `frontend` overlay network are needed. Nothing different about them other then that backend will help protect database from nodejs app.
 - The database server should use a named volume for preserving data. Use the new `--mount` format to do this: `--mount type=volume,source=db-data,target=/var/lib/postgresql/data`
 
-### Services (names below should be service names)
-- vote
-    - dockersamples/examplevotingapp_vote:before
-    - web front end for users to vote dog/cat
-    - ideally published on TCP 80. Container listens on 80
-    - on frontend network
-    - 2+ replicas of this container
+# create two overlay networks one for frontend and the other for backend
+docker network create --driver overlay frontend
+docker network create --driver overlay backend
 
-- redis
-    - redis:3.2
-    - key/value storage for incoming votes
-    - no public ports
-    - on frontend network
-    - 2 replicas 
+# create the service NodeJS con React, with 3 replicas, connect it with the  correspondent network and use a standard port 80, 
+# give a name in accordance with the project you are working on (Tournaments or parking) 
 
-- worker
-    - bretfisher/examplevotingapp
-    - backend processor of redis and storing results in postgres
-    - no public ports
-    - on frontend and backend networks
-    - 2 replica
 
-- db
-    - postgres:9.4
-    - one named volume needed, pointing to /var/lib/postgresql/data
-    - on backend network
-    - 1 replica
+# create the service javaspring, with 2 replicas, connect it with the  correspondent network and use the port 8181, 
+# give a name in accordance with the project you are working on (Tournaments or parking)
 
-- result
-    - dockersamples/examplevotingapp_result:before
-    - web app that shows results
-    - runs on high port since just for admins (lets imagine)
-    - so run on a high port of your choosing (I choose 5001), container listens on 80
-    - on backend network
-    - 1 replica
-    
-    Bonus
-    -Add a visualizer to the swarm to monitor all the components
+
+#create a service for database
+#create service db: postgres:9.4, one named volume pointing to /var/lib/postgresql/data, backend, 1 replica
+#to mount the volume use the option: --mount type=volume,source=db-data,target=/var/lib/postgresql/data
+docker service create --name db --replicas 1 --network backend --mount type=volume,source=db-data,target=/var/lib/postgresql/data -e POSTGRES_PASSWORD=password postgres:9.4
+
+#bonus
+#configure a visualizer for the services
+
+#To start with the project do it like this:
+First create the four components and run in your machine and inspect their logs to see the components are running correctly
+Write a compose file that brings up all the solution
+Create the nodes using docker-machine (you can use the scripts in the repository)
+create the swarm and using service commands bring up the redundancy solutions
