@@ -1,13 +1,13 @@
 # advancedockerchallenge
 # Assignment: Create A Multi-Service Multi-Node Web App
 
-## Goal: create networks, volumes, and services for a web-based "cats vs. dogs" voting app.
-Here is a basic diagram of how the 5 services will work:
+## Goal: create networks, volumes, and services for a web-based "nodejs spring postgress + visualizer" app.
+Here is a basic diagram of how the 4 services will work:
 
 ![diagram](./challenge2/architecture2.png)
-- All images are on Docker Hub, so you should use editor to craft your commands locally, then paste them into swarm shell (at least that's how I'd do it)
-- a `backend` and `frontend` overlay network are needed. Nothing different about them other then that backend will help protect database from nodejs app.
-- The database server should use a named volume for preserving data. Use the new `--mount` format to do this: `--mount type=volume,source=db-data,target=/var/lib/postgresql/data`
+- You have to build all the images, but must of them you already have it, so you should use editor to craft your commands locally, then paste them into swarm shell (at least that's how I'd do it)
+- a `backend` and `frontend` overlay network are needed. Nothing different about them other then that backend will help protect database from external world.
+- The database server should use a named volume for preserving data. Use the new `--mount` format to do this: `--mount type=volume,source=db-project_name,target=/var/lib/postgresql/data`
 
 # create two overlay networks one for frontend and the other for backend
 docker network create --driver overlay frontend
@@ -21,13 +21,11 @@ docker network create --driver overlay backend
 # give a name in accordance with the project you are working on (Tournaments or parking)
 
 
-#create a service for database
-#create service db: postgres:9.4, one named volume pointing to /var/lib/postgresql/data, backend, 1 replica
+# create a service for database db: postgres:9.4, one named volume pointing to /var/lib/postgresql/data, backend, 1 replica
 #to mount the volume use the option: --mount type=volume,source=db-data,target=/var/lib/postgresql/data
-docker service create --name db --replicas 1 --network backend --mount type=volume,source=db-data,target=/var/lib/postgresql/data -e POSTGRES_PASSWORD=password postgres:9.4
 
-#bonus
-#configure a visualizer for the services
+
+# configure a visualizer for the services
 
 #To start with the project do it like this:
 First create the four components and run in your machine and inspect their logs to see the components are running correctly
