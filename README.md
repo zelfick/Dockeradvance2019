@@ -45,5 +45,5 @@ Here is a basic diagram of how the 5 services will work:
     - on backend network
     - 1 replica
     
-    Bonus
-    -Add a visualizer to the swarm to monitor all the components
+  - visualizer
+    -Add a visualizer to the monitor all the services (refere to docker advance presentation for it information)
