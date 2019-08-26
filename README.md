@@ -4,7 +4,7 @@
 ## Goal: create networks, volumes, and services for a web-based "nodejs spring postgress + visualizer" app.
 Here is a basic diagram of how the 4 services will work:
 
-![diagram](./challenge2/architecture2.png)
+![diagram](./challenge2/architecture2.png) https://github.com/zelfick/Dockeradvance2019/blob/challenge2/architecture2.jpg
 - You have to build all the images, but must of them you already have it, so you should use editor to craft your commands locally, then paste them into swarm shell (at least that's how I'd do it)
 - a `backend` and `frontend` overlay network are needed. Nothing different about them other then that backend will help protect database from external world.
 - The database server should use a named volume for preserving data. Use the new `--mount` format to do this: `--mount type=volume,source=db-project_name,target=/var/lib/postgresql/data`
