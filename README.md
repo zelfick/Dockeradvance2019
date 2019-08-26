@@ -22,14 +22,14 @@ Here is a basic diagram of how the 5 services will work:
     - key/value storage for incoming votes
     - no public ports
     - on frontend network
-    - 2 replicas (Only one would be enough)
+    - 2 replicas 
 
 - worker
-    - dockersamples/examplevotingapp_worker
+    - bretfisher/examplevotingapp
     - backend processor of redis and storing results in postgres
     - no public ports
     - on frontend and backend networks
-    - 1 replica
+    - 2 replica
 
 - db
     - postgres:9.4
@@ -44,3 +44,6 @@ Here is a basic diagram of how the 5 services will work:
     - so run on a high port of your choosing (I choose 5001), container listens on 80
     - on backend network
     - 1 replica
+    
+    Bonus
+    -Add a visualizer to the swarm to monitor all the components
